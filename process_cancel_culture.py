@@ -2,8 +2,12 @@ import re
 import os
 from datetime import datetime
 import pandas as pd
+import argparse
 
-fname = 'michaeljburry-20210619172112.md'
+parser = argparse.ArgumentParser(prog="File parser.", description='Input file to process. Run command e.g. python process_cancel_culture.py file_name.md', usage='%(prog)s [options]')
+parser.add_argument('-f','--filename', help='e.g. file_name.md', required=True)
+args = vars(parser.parse_args())
+fname     = args['filename']  # 'Oct 17'
 
 file = open(fname, "r")
 raw  = file.read().split('any Twitter client.', 1)[-1]
@@ -32,5 +36,7 @@ df['date'] = df['date'].apply(get_date)
 df['url'] = df['raw'].apply(get_url)
 df['id'] = df['url'].apply(get_id)
 df['text'] = df['raw'].apply(get_text)
+df['deleted'] = df['url'].map(lambda x: False if '[live]' in str(x) else True)
+
 
 df.to_csv(fname+'.csv', index=False)
