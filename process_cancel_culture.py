@@ -7,7 +7,7 @@ import argparse
 parser = argparse.ArgumentParser(prog="File parser.", description='Input file to process. Run command e.g. python process_cancel_culture.py file_name.md', usage='%(prog)s [options]')
 parser.add_argument('-f','--filename', help='e.g. file_name.md', required=True)
 args = vars(parser.parse_args())
-fname     = args['filename']  # 'Oct 17'
+fname     = args['filename']  
 
 file = open(fname, "r")
 raw  = file.read().split('any Twitter client.', 1)[-1]
